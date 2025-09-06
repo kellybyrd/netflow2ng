@@ -15,7 +15,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+<<<<<<< HEAD
 	"sync"
+=======
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 	"time"
 
 	zmq "github.com/pebbe/zmq4"
@@ -45,7 +48,10 @@ type ZmqDriver struct {
 	sourceId      int
 	msgType       MsgFormat
 	compress      bool
+<<<<<<< HEAD
 	lock          *sync.RWMutex
+=======
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 }
 
 type zmqHeader struct {
@@ -65,11 +71,17 @@ func (d *ZmqDriver) Prepare() error {
 }
 
 func (d *ZmqDriver) Init() error {
+<<<<<<< HEAD
 	d.lock.Lock()
 	d.context, _ = zmq.NewContext()
 	d.publisher, _ = d.context.NewSocket(zmq.PUB)
 	if err := d.publisher.Bind(d.listenAddress); err != nil {
 		d.lock.Unlock()
+=======
+	d.context, _ = zmq.NewContext()
+	d.publisher, _ = d.context.NewSocket(zmq.PUB)
+	if err := d.publisher.Bind(d.listenAddress); err != nil {
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 		log.Fatalf("Unable to bind: %s", err.Error())
 	}
 
@@ -77,7 +89,10 @@ func (d *ZmqDriver) Init() error {
 
 	//  Ensure subscriber connection has time to complete
 	time.Sleep(time.Second)
+<<<<<<< HEAD
 	d.lock.Unlock()
+=======
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 	return nil
 }
 
@@ -85,6 +100,10 @@ func (d *ZmqDriver) Send(key, data []byte) error {
 	var err error
 
 	msg_len := uint16(len(data))
+<<<<<<< HEAD
+=======
+
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 	header := d.newZmqHeader(msg_len)
 
 	// send our header with the topic first as a multi-part message
@@ -93,17 +112,26 @@ func (d *ZmqDriver) Send(key, data []byte) error {
 		log.Errorf("Unable to serialize header: %s", err.Error())
 		return err
 	}
+<<<<<<< HEAD
 
 	d.lock.Lock()
 	bytes, err := d.publisher.SendBytes(hbytes, zmq.SNDMORE)
 	if err != nil {
 		log.Errorf("Unable to send header: %s", err.Error())
 		d.lock.Unlock()
+=======
+	bytes, err := d.publisher.SendBytes(hbytes, zmq.SNDMORE)
+	if err != nil {
+		log.Errorf("Unable to send header: %s", err.Error())
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 		return err
 	}
 	if bytes != len(hbytes) {
 		log.Errorf("Wrote the wrong number of header bytes: %d", bytes)
+<<<<<<< HEAD
 		d.lock.Unlock()
+=======
+>>>>>>> c7c237a (Add ZMQ transpor for goflow2 migration.)
 		return err
 	}
 
