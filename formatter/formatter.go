@@ -53,4 +53,6 @@ func SetLogger(l *logrus.Logger) {
 func init() {
 	format.RegisterFormatDriver("ntopjson", &NtopngJson{})
 	format.RegisterFormatDriver("ntoptlv", &NtopngTlv{})
+
+	log.Debug("formatter package initialized")
 }
